@@ -1,4 +1,4 @@
-CREATE TABLE "public.customers" (
+CREATE TABLE customers (
 	"id" serial NOT NULL,
 	"name" varchar(50) NOT NULL,
 	"email" varchar(50) NOT NULL UNIQUE,
@@ -12,22 +12,22 @@ CREATE TABLE "public.customers" (
 
 
 
-CREATE TABLE "public.shortedLink" (
+CREATE TABLE link (
 	"id" serial NOT NULL,
 	"shortedLink" TEXT NOT NULL UNIQUE,
 	"customerID" integer NOT NULL,
 	"URL" TEXT NOT NULL,
 	"isAvailable" BOOLEAN NOT NULL DEFAULT 'true',
-	CONSTRAINT "shortedLink_pk" PRIMARY KEY ("id")
+	CONSTRAINT "link_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
 );
 
 
 
-CREATE TABLE "public.visualizations" (
+CREATE TABLE visualizations (
 	"id" serial NOT NULL,
-	"shortedLinkId" integer NOT NULL,
+	"linkId" integer NOT NULL,
 	CONSTRAINT "visualizations_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
@@ -36,9 +36,9 @@ CREATE TABLE "public.visualizations" (
 
 
 
-ALTER TABLE "shortedLink" ADD CONSTRAINT "shortedLink_fk0" FOREIGN KEY ("customerID") REFERENCES "customers"("id");
+ALTER TABLE link ADD CONSTRAINT "link_fk0" FOREIGN KEY ("customerID") REFERENCES customers("id");
 
-ALTER TABLE "visualizations" ADD CONSTRAINT "visualizations_fk0" FOREIGN KEY ("shortedLinkId") REFERENCES "shortedLink"("id");
+ALTER TABLE visualizations ADD CONSTRAINT "visualizations_fk0" FOREIGN KEY ("linkId") REFERENCES link("id");
 
 
 
