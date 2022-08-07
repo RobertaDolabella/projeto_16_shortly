@@ -2,9 +2,9 @@ CREATE TABLE customers (
 	"id" serial NOT NULL,
 	"name" varchar(50) NOT NULL,
 	"email" varchar(50) NOT NULL UNIQUE,
-	"password" varchar(20) NOT NULL,
-	"token" varchar NOT NULL,
-	"isLogedIn" BOOLEAN NOT NULL,
+	"password" varchar(100) NOT NULL,
+	"token" varchar,
+	"isLogedIn" BOOLEAN NOT NULL DEFAULT FALSE,
 	CONSTRAINT "customers_pk" PRIMARY KEY ("id")
 ) WITH (
   OIDS=FALSE
