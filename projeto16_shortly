@@ -1,0 +1,408 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.11 (Ubuntu 12.11-0ubuntu0.20.04.1)
+-- Dumped by pg_dump version 12.11 (Ubuntu 12.11-0ubuntu0.20.04.1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: customers; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA customers;
+
+
+ALTER SCHEMA customers OWNER TO postgres;
+
+--
+-- Name: SCHEMA customers; Type: COMMENT; Schema: -; Owner: postgres
+--
+
+COMMENT ON SCHEMA customers IS 'CREATE TABLE "customers" (
+	"id" serial NOT NULL,
+	"name" varchar(50) NOT NULL,
+	"email" varchar(50) NOT NULL UNIQUE,
+	"password" varchar(20) NOT NULL,
+	"token" varchar NOT NULL,
+	"isLogedIn" BOOLEAN NOT NULL,
+	CONSTRAINT "customers_pk" PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);';
+
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: customers; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.customers (
+    id integer NOT NULL,
+    name character varying(50) NOT NULL,
+    email character varying(50) NOT NULL,
+    token character varying(100),
+    "isLoggedIn" boolean DEFAULT false,
+    password character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.customers OWNER TO postgres;
+
+--
+-- Name: customers_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.customers_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.customers_id_seq OWNER TO postgres;
+
+--
+-- Name: customers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.customers_id_seq OWNED BY public.customers.id;
+
+
+--
+-- Name: shortedLink; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."shortedLink" (
+    id integer NOT NULL,
+    "shortedLink" text NOT NULL,
+    "customerID" integer NOT NULL,
+    "URL" text NOT NULL,
+    "isAvailable" boolean DEFAULT true NOT NULL,
+    visualizationacounter integer DEFAULT 0 NOT NULL
+);
+
+
+ALTER TABLE public."shortedLink" OWNER TO postgres;
+
+--
+-- Name: shortedLink_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."shortedLink_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."shortedLink_id_seq" OWNER TO postgres;
+
+--
+-- Name: shortedLink_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."shortedLink_id_seq" OWNED BY public."shortedLink".id;
+
+
+--
+-- Name: visualizations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.visualizations (
+    id integer NOT NULL,
+    "shortedLinkId" integer NOT NULL,
+    date timestamp without time zone
+);
+
+
+ALTER TABLE public.visualizations OWNER TO postgres;
+
+--
+-- Name: visualizations_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.visualizations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.visualizations_id_seq OWNER TO postgres;
+
+--
+-- Name: visualizations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.visualizations_id_seq OWNED BY public.visualizations.id;
+
+
+--
+-- Name: customers id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.customers ALTER COLUMN id SET DEFAULT nextval('public.customers_id_seq'::regclass);
+
+
+--
+-- Name: shortedLink id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."shortedLink" ALTER COLUMN id SET DEFAULT nextval('public."shortedLink_id_seq"'::regclass);
+
+
+--
+-- Name: visualizations id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.visualizations ALTER COLUMN id SET DEFAULT nextval('public.visualizations_id_seq'::regclass);
+
+
+--
+-- Data for Name: customers; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.customers (id, name, email, token, "isLoggedIn", password) FROM stdin;
+7	olivia	olivia@globomail.com	\N	f	$2b$10$bP6DOTBtPvfz5J4DhphF0OfFfBw5jiMA5CgxcZGi7.k1Qcn4mtjNu
+8	romeu	romeu@mail.com	\N	f	$2b$10$80fWNmqd3qRcEHC5GykVM.F9HonhHwhmJWoc1szTjyphDRBHCMd46
+5	robertamd	roberta@globomail.com	78d001d9-7e83-4ce8-8e2b-11533182b566	t	$2b$10$1TzHgTl8kwjp0gJ4NMxn2evDZpFW5s.Egxe2Sk2xwg0vHdcbuQg3u
+18	ana	ana@gmail.com	03a63916-14a8-43fe-a4bb-18e1a01f0b59	t	$2b$10$OlWQncThxhcUZ/4S1F0VAumV72z.tnumlWih8Mf8Iw46qv8ST7zUi
+15	joao	joao@gmail.com	30653c18-9e59-4ab4-85a8-9b414b3422a8	t	$2b$10$5arnxk0CYoDy6.neVx1VruRP.9rpKa1wHJUeFhHw7nKSWIncVqpiG
+17	vitor	vitor@gmail.com	4766437d-2711-46d8-80fb-a37aa1ee76bc	t	$2b$10$U39JdXsh7tc6qQB9P2qfFO3TAhNHX.0vyL2dMNJMUo3GFulcdyWye
+14	bete	bete@gmail.com	aea5566d-37d8-4cd0-816e-73e819e68538	t	$2b$10$HpaSUSYOj.8mrqLDAeyuD.rtYzIpP.0isVF9vFAvK4O7u4BYooRcK
+9	frajola	frajola@mail.com	5a762ad4-38b5-4cbc-8484-8a8776787bf1	t	$2b$10$JrkJa1FnLyVJw0VaE02kJuEw/uwZyMb2Hqj6Ewmttbded2R/UkyhO
+6	MARCELA	marcela@globomail.com	f97dc706-7d48-479d-84ba-ee2e2902356a	t	$2b$10$53uRXXec.eZX4etkn.QRT.93GT9.R.FK9U6jh1n329w.bJt6tm7aO
+12	maria	maria@gmail.com	e18f2ded-19bd-41eb-8f34-121c5eb90ccc	t	$2b$10$yquVBkVMuHvfSPr5a3Qvou7wjY1fegnxuB0f/bjMQzOt7YSAOQYTW
+16	carlos	carlos@gmail.com	39d0011f-2bdb-4962-8416-ac846b352fa8	t	$2b$10$7cWZpp5OHLs4D8lLpqoCcO2Wj5koZpvUDt8qx4tspKbaWqPLmZ0KW
+11	jose	jose@gmail.com	23c71cd7-9353-4a43-8787-d4311e1d9841	t	$2b$10$/HWmHXcf7rgzi8wtEzTB9uWpghI5eQI2YYbGV2UQErtNiS9GDkLNS
+13	joana	joana@gmail.com	358f5214-6179-4718-a715-3148b777568f	t	$2b$10$4BPdUZN4eD95IK5XE.0mgeOvLErIH49k71Av9usTqMHgY2zENZiwq
+19	julia	julia@mail.com	7552a83f-3e9c-4200-b0fd-9f32d4328214	t	$2b$10$k4Qac2Qb6Y.vv5nC06t0TuGw2pTJUgZSMT81VuruN3Cc7RQRYPHbO
+\.
+
+
+--
+-- Data for Name: shortedLink; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."shortedLink" (id, "shortedLink", "customerID", "URL", "isAvailable", visualizationacounter) FROM stdin;
+13	4iW_ER6AtIj1dgLbUUkTp	18	data:image/jpeg;base64,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	t	2
+19	1j3eqlCBA6xq9fWRDI2DZ	17	https://i.ytimg.com/vi/7Zn53s41Qk8/hqdefault.jpg	t	0
+22	kdxd8An5HjCvLAagdrGmJ	6	https://love.doghero.com.br/como-funciona/	t	0
+23	EEhPw0ykmpmDew2FCJMmm	12	https://love.doghero.com.br/como-funciona/	t	0
+24	MpTBAkGCpyBt0d74hRlv3	16	https://www.clubeparacachorros.com.br/wp-content/uploads/2018/10/famoso-chow-chow-panda-filhote-195x130.jpg	t	2
+2	j2JHNup1lAdtUCVu_6FMZ	9	https://bootcampra.notion.site/Projeto-Shortly-API-4ffa110c0ebd4e83ad7302cfafd33133	t	14
+20	dXqsjmzdzlACqYc9b9y7o	14	https://love.doghero.com.br/wp-content/uploads/2019/09/Dachshund.jpg.jpg	t	3
+21	_ejHIyaT1awuJGzZkbIVk	14	https://love.doghero.com.br/caes/cachorros-fofos/	t	3
+1	PBPoS4Gf79RLzRbp_us0D	9	https://stackoverflow.com/questions/61374991/how-to-use-nanoid-module-on-nodejs	t	5
+4	R6g6oc8JYO1525Qfai21r	5	https://www.globo.com/	t	0
+6	fJIBrClCNtNRQXlQ7L9BX	5	https://www.youtube.com/watch?v=FWRoaEp6Pjc	t	0
+7	ZCmVWgfqnmw9u_kfL9wx_	5	https://www.youtube.com/watch?v=Ff6CaLUxJRw	t	0
+8	acX1aAhfP8KgDL8-jrLcp	5	https://www.youtube.com/watch?v=Ff6CaLUxJRw	t	0
+18	2g3iEbFgQ6bLMUk0PhYuZ	15	https://www.clubeparacachorros.com.br/wp-content/uploads/2018/05/dalmata-pintado.jpg	t	2
+12	qCn9-2ELwNrwfBXcBtFJz	5	https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHgRQ7WDy7PEoaP83ZTAgj7diGv_Nwd1uv-A&usqp=CAU	t	2
+11	Y5sBYyXx1-1DfR5DINHdr	5	https://www.thekennelclub.org.uk/search/breeds-a-to-z/breeds/gundog/pointer/	t	1
+9	Gls-j826c_wgQZ9KtuC0n	5	https://ge.globo.com/cartola/?utm_source=globocom&utm_medium=header&utm_campaign=c2022_10_cartola_cartola-2022_alcance&utm_content=HEA_cartola-2022	t	4
+15	eXIkXKWaVYVrRvrEaGzo6	18	https://i2.wp.com/gatinhobranco.com/wp-content/uploads/2018/02/pounce-livro-gatinhos-pulando-fotografia.jpg?fit=932%2C500&ssl=1	t	1
+10	ROuHoxvB1jbfZCO3EMdTY	5	https://globoplay.globo.com/?utm_source=barraGCOM	t	2
+17	MoKWVK_mLHuwMn3oKX9RX	15	https://love.doghero.com.br/wp-content/uploads/2019/09/Corgi-1.jpg-1.jpg	t	4
+27	MpxDUzuXyppA0OP2lX7Z0	19	https://s4.static.brasilescola.uol.com.br/img/2019/09/panda.jpg	t	13
+16	Rwuwerhx4_fMZZVENSFgR	18	https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRn3nfQPoWbqiiaSKfPYnazDqxbmWMv6uyVNQ&usqp=CAU	t	5
+14	_FyIwOpnz1Zpt9mBcZzZN	18	data:image/jpeg;base64,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	t	8
+25	0ZeP1-Gop2htKhZ26TBFV	11	https://www.clubeparacachorros.com.br/wp-content/uploads/2018/11/filhote-beagle-fofo-195x130.jpg	t	2
+26	bVi_cgrd_x8PPCWwWPL4w	13	https://www.clubeparacachorros.com.br/wp-content/uploads/2018/05/labrador-invadindo-banheiro.jpg	t	2
+\.
+
+
+--
+-- Data for Name: visualizations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.visualizations (id, "shortedLinkId", date) FROM stdin;
+1	2	2022-08-06 12:50:26
+2	2	2022-08-06 12:51:06
+3	2	2022-08-06 12:51:41
+4	2	2022-08-06 12:53:36
+5	2	2022-08-06 12:55:42
+6	2	2022-08-06 12:56:00
+7	2	2022-08-06 12:57:44
+8	2	2022-08-06 12:58:16
+9	2	2022-08-06 12:59:16
+10	2	2022-08-06 12:59:19
+11	2	2022-08-06 12:59:45
+12	2	2022-08-06 12:59:51
+13	2	2022-08-06 13:00:27
+14	2	2022-08-06 13:00:44
+15	1	2022-08-06 13:11:03
+16	1	2022-08-06 13:11:08
+17	1	2022-08-06 13:11:09
+18	1	2022-08-06 13:11:28
+19	1	2022-08-06 13:12:06
+20	10	2022-08-07 16:28:38
+21	9	2022-08-07 16:28:51
+22	12	2022-08-07 16:33:54
+23	12	2022-08-07 16:34:34
+24	11	2022-08-07 16:34:54
+25	9	2022-08-07 16:35:22
+26	9	2022-08-07 16:35:51
+27	9	2022-08-07 16:35:53
+28	15	2022-08-07 17:42:56
+29	10	2022-08-07 17:43:42
+30	14	2022-08-07 17:44:00
+31	14	2022-08-07 17:44:04
+32	14	2022-08-07 17:44:04
+33	14	2022-08-07 17:44:05
+34	14	2022-08-07 17:44:05
+35	14	2022-08-07 17:44:28
+36	14	2022-08-07 17:44:30
+37	14	2022-08-07 17:44:30
+38	13	2022-08-07 17:44:49
+39	13	2022-08-07 17:44:51
+40	24	2022-08-07 18:05:32
+41	24	2022-08-07 18:05:41
+42	20	2022-08-07 18:05:58
+43	20	2022-08-07 18:06:00
+44	20	2022-08-07 18:06:00
+45	21	2022-08-07 18:06:17
+46	21	2022-08-07 18:06:22
+47	21	2022-08-07 18:06:25
+48	18	2022-08-07 18:06:47
+49	18	2022-08-07 18:06:50
+50	17	2022-08-07 18:07:02
+51	17	2022-08-07 18:07:04
+52	17	2022-08-07 18:07:04
+53	17	2022-08-07 18:07:05
+54	16	2022-08-07 18:07:16
+55	16	2022-08-07 18:07:17
+56	16	2022-08-07 18:07:19
+57	16	2022-08-07 18:07:19
+58	16	2022-08-07 18:07:20
+59	25	2022-08-07 18:09:09
+60	25	2022-08-07 18:09:11
+61	26	2022-08-07 18:10:46
+62	26	2022-08-07 18:10:48
+63	27	2022-08-08 07:20:05
+64	27	2022-08-08 07:20:10
+65	27	2022-08-08 07:20:10
+66	27	2022-08-08 07:20:10
+67	27	2022-08-08 07:20:11
+68	27	2022-08-08 07:20:42
+69	27	2022-08-08 07:20:43
+70	27	2022-08-08 07:20:44
+71	27	2022-08-08 07:20:45
+72	27	2022-08-08 07:20:46
+73	27	2022-08-08 07:20:47
+74	27	2022-08-08 07:20:48
+75	27	2022-08-08 07:20:48
+\.
+
+
+--
+-- Name: customers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.customers_id_seq', 19, true);
+
+
+--
+-- Name: shortedLink_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."shortedLink_id_seq"', 27, true);
+
+
+--
+-- Name: visualizations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.visualizations_id_seq', 75, true);
+
+
+--
+-- Name: customers customers_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.customers
+    ADD CONSTRAINT customers_email_key UNIQUE (email);
+
+
+--
+-- Name: customers customers_short; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.customers
+    ADD CONSTRAINT customers_short PRIMARY KEY (id);
+
+
+--
+-- Name: shortedLink shortedLink_short; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."shortedLink"
+    ADD CONSTRAINT "shortedLink_short" PRIMARY KEY (id);
+
+
+--
+-- Name: shortedLink shortedLink_shortedLink_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."shortedLink"
+    ADD CONSTRAINT "shortedLink_shortedLink_key" UNIQUE ("shortedLink");
+
+
+--
+-- Name: visualizations visualizations_short; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.visualizations
+    ADD CONSTRAINT visualizations_short PRIMARY KEY (id);
+
+
+--
+-- Name: shortedLink shortedLink_fk0; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."shortedLink"
+    ADD CONSTRAINT "shortedLink_fk0" FOREIGN KEY ("customerID") REFERENCES public.customers(id);
+
+
+--
+-- Name: visualizations visualizations_fk0; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.visualizations
+    ADD CONSTRAINT visualizations_fk0 FOREIGN KEY ("shortedLinkId") REFERENCES public."shortedLink"(id);
+
+
+--
+-- Name: shortly-roberta; Type: PUBLICATION; Schema: -; Owner: postgres
+--
+
+CREATE PUBLICATION "shortly-roberta" WITH (publish = 'insert, update, delete, truncate');
+
+
+ALTER PUBLICATION "shortly-roberta" OWNER TO postgres;
+
+--
+-- PostgreSQL database dump complete
+--
+

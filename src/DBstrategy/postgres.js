@@ -11,6 +11,7 @@ const { Pool } = pg;
 
 // const connection = new Pool(databaseConfig);
 
+// export default connection;
 
 const connection = new Pool({
 host:'localhost',
