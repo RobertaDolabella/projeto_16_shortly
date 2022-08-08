@@ -31,7 +31,7 @@ export async function SignIN(req, res){
 
          const { rows : user } = await connection.query('SELECT * FROM customers WHERE email = $1', [email])
 
-         if(user.lenght<1){
+         if(user.lenght>1){
              return res.sendStatus(user)
          }
 
