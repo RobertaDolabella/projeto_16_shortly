@@ -23,8 +23,9 @@ export async function SignUp(req, res){
 
 }
 export async function SignIN(req, res){
-    
+    console.log("1")
     const {email, password} = req.body
+    console.log("2")
 
     try{
 console.log("entrou no try")
