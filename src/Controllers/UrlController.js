@@ -64,9 +64,6 @@ export async function GetToTheLink(req, res) {
         const counter = rows[0].count
 
         await connection.query('UPDATE "shortedLink" SET visualizationaCounter=$1 WHERE id = $2',[counter,shortenId[0].id ])
-        
-        console.log("vai mostrar a url")
-        console.log(shortenId[0].URL)
 
         res.redirect(shortenId[0].URL, 302)
 

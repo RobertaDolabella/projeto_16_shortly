@@ -2,26 +2,26 @@ import pg from 'pg';
 
 const { Pool } = pg;
 
-// const databaseConfig = {
-//     connectionString: process.env.DATABASE_URL,
-//     ssl: {
-//         rejectUnauthorized: false
-//     }
-// }
+const databaseConfig = {
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
+}
 
-// const connection = new Pool(databaseConfig);
-
-// export default connection;
-
-const connection = new Pool({
-host:'localhost',
-port:5432 ,
-user:'postgres',
-password:'admin',
-database:'shortly'
-})
+const connection = new Pool(databaseConfig);
 
 export default connection;
+
+// const connection = new Pool({
+// host:'localhost',
+// port:5432 ,
+// user:'postgres',
+// password:'admin',
+// database:'shortly'
+// })
+
+// export default connection;
 
 
 
