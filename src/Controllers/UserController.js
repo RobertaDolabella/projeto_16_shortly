@@ -23,16 +23,16 @@ export async function SignUp(req, res){
 
 }
 export async function SignIN(req, res){
-
+    
     const {email, password} = req.body
  
 
     try{
 
-         const { rows : user } = await connection.query('SELECT * FROM customers WHERE email = $1', [email])
+         const { rows:user } = await connection.query('SELECT * FROM customers WHERE email = $1', [email])
 
-         if(user.lenght>1){
-             return res.sendStatus(user)
+         if(user.lenght<1){
+             return res.sendStatus(401)
          }
 
          const senhaCrypt = user[0].password
