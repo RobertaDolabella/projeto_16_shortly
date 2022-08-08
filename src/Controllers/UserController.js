@@ -27,8 +27,9 @@ export async function SignIN(req, res){
     const {email, password} = req.body
 
     try{
-
+console.log("entrou no try")
          const {rows:user} = await connection.query('SELECT *FROM customers WHERE email = $1', [email])
+
          if(user.lenght<1){
              return res.sendStatus(401)
          }
