@@ -4,13 +4,11 @@ import dayjs from 'dayjs';
 
 export async function CreateAShortening(req, res) {
 
-    console.log("passou pelas validações")
-
     const user = res.locals.user;
 
     const { url } = req.body
 
-    let shorten = nanoid()
+    let shorten = {shortedLink: nanoid()}
 
     try {
 

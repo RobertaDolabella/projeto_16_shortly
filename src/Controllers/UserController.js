@@ -4,26 +4,26 @@ import bcrypt from "bcrypt";
 
 
 export async function SignUp(req, res){
-    
+    console.log("entrou na função do signup")
     const {name, password, email} = req.body
 
     const senhaCrypt = bcrypt.hashSync(password, 10)
 
-    console.log(senhaCrypt)
-
+    console.log("cript")
     try{
-
+console.log(name , email, senhaCrypt)
         await connection.query('INSERT INTO customers (name, email, password) VALUES ($1,$2,$3);', [name, email, senhaCrypt])
-
-        res.sendStatus(201)
+        console.log("passando pelo try")
+        res.send("deu")
     }catch{
         res.sendStatus(409)
 
     }
 
 }
-export async function SignIN(req, res){
+export async function SignIn(req, res){
     
+
     const {email, password} = req.body
  
 
@@ -37,18 +37,15 @@ export async function SignIN(req, res){
 
          const senhaCrypt = user[0].password
 
-         console.log(senhaCrypt)
-
          const validacaoSenha = bcrypt.compareSync(password, senhaCrypt)
 
-         console.log(validacaoSenha)
-
+         console.log("1")
          if(!validacaoSenha){
             return res.sendStatus(401)
          }
-         const token = uuid()
-
-         const { rows }=  await connection.query('UPDATE customers SET token = $1, "isLoggedIn" = $2 WHERE email=$3', [token, true, email])
+         const token = {token:uuid()}
+         console.log("2")
+         const { rows }=  await connection.query('UPDATE customers SET token = $1, "isLoggedIn" = $2 WHERE email=$3', [token.token, true, email])
                  
         res.send(token)
     }catch{
@@ -65,8 +62,6 @@ export async function GetUser(req, res){
         const {rows: info} = await connection.query('SELECT id, "shortedLink" AS shortUrl, "URL"AS url ,visualizationacounter AS "visitCount" FROM "shortedLink" WHERE "customerID"= $1', [id])
 
         const {rows: totalViews} = await connection.query('SELECT SUM(visualizationacounter) FROM "shortedLink"')
-
-        console.log(totalViews)
 
         const response = {
             id,
